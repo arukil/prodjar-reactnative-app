@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import * as Animation from 'react-native-animatable';
 
 export default function MyCourse(props) {
 
@@ -10,35 +11,38 @@ export default function MyCourse(props) {
         setData([
             {
                 id: '1',
+                course:'Html',
                 topic: 'CSS Setup and selector',
                 courseImage: 'https://s3.ap-south-1.amazonaws.com/prodjar.io/html.png',
                 currentTopicNo: '3',
                 TotalTopicNo: '15',
                 tutorName: 'alagappan',
                 tutorImage: '',
-                color:'rgb(255,234,234)'
+                color: 'rgb(255,234,234)'
 
             },
             {
                 id: '2',
-                topic: 'Yoga - Basics',
+                topic: 'Yoga-Basics',
+                course:'Yoga',
                 courseImage: 'https://s3.ap-south-1.amazonaws.com/prodjar.io/yoga.png',
                 currentTopicNo: '2',
                 TotalTopicNo: '18',
                 tutorName: 'gobinath',
                 tutorImage: '',
-                color:'#dff4fe'
+                color: '#dff4fe'
 
             },
             {
                 id: '3',
                 topic: 'React Native installation',
+                course:'React Native',
                 courseImage: 'https://s3.ap-south-1.amazonaws.com/prodjar.io/html.png',
                 currentTopicNo: '0',
                 TotalTopicNo: '15',
                 tutorName: 'suryanarayanan',
                 tutorImage: '',
-                color:'#ffeed5'
+                color: '#ffeed5'
 
             },
 
@@ -47,9 +51,9 @@ export default function MyCourse(props) {
     }, []);
 
 
-    const renderItem =({ item, index }) => {
+    const renderItem = ({ item }) => {
         return (
-            <View style={[styles.list, { backgroundColor: item.color }]}>
+            <Animation.View style={[styles.list, { backgroundColor: item.color }]} animation={'fadeInUp'}>
                 <View style={styles.listTop}>
                     <Image
                         source={{
@@ -78,16 +82,16 @@ export default function MyCourse(props) {
                         <Text style={{ fontSize: 15, fontWeight: '700' }}>{item.currentTopicNo}/{item.TotalTopicNo}</Text>
                         <Text style={{ color: '#4f4f4f' }}>classes completed</Text>
                     </View>
-                    <TouchableOpacity style={styles.listBottomRight} activeOpacity={0.8} 
-                           onPress={()=>props.navigation.navigate('CourseDetail',{
-                                 id:item.id
-                           })}
-                        >
+                    <TouchableOpacity style={styles.listBottomRight} activeOpacity={0.8}
+                        onPress={() => props.navigation.navigate('CourseDetail', {
+                            data: item
+                        })}
+                    >
                         <Text style={{ fontSize: 16, color: 'rgb(241,141,144)' }}>View course</Text>
                         <Icon name={'arrow-right'} size={20} color={'rgb(241,141,144)'} />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </Animation.View>
         )
     }
 
@@ -99,7 +103,7 @@ export default function MyCourse(props) {
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
-                maxToRenderPerBatch={1}
+                maxToRenderPerBatch={4}
                 initialNumToRender={3}
             />
         </SafeAreaView>

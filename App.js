@@ -25,7 +25,8 @@ export default function App() {
             headerTitleStyle:{
                 fontWeight:'700',
                 color:'#2d2d2d',
-                fontSize:18          },
+                fontSize:18
+              },
             headerLeft: () => {
               return(
                  <TouchableOpacity style={{ marginLeft: 10 }}>
@@ -35,7 +36,19 @@ export default function App() {
             }
           }}
         />
-        <Stack.Screen name="CourseDetail" component={CourseDetail} />
+        <Stack.Screen name="CourseDetail" component={CourseDetail} 
+              options={{
+                title:'Back to my courses',
+                headerTitleStyle:{
+                  fontWeight:'700',
+                  color:'#2d2d2d',
+                  fontSize:18
+                },
+                headerStyle: {
+                  elevation: 0,
+                },
+              }}
+         />
       </Stack.Navigator>
     </NavigationContainer>
   );
