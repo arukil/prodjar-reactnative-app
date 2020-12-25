@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const ProgressBar = (props) => {
     return (
         <View style={styles.container}>
-            <Text style={{ fontSize: 18, fontWeight: '700', color: '#4f4f4f' }}>{'Html'}</Text>
+            <Text style={{ fontSize: 18, fontWeight: '700', color: '#4f4f4f' }}>{props.data.course}</Text>
             <Progress.Bar
                 progress={(props.data.totalCompletedTopic / props.data.totalTopicNo)}
                 width={300}

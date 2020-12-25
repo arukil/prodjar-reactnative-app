@@ -89,7 +89,7 @@ MyCourse.propTypes = {
 
 const getCourse = () => {
     return async (dispatch) => {
-        await axios.get('https://8cc2ca9d1a84.ngrok.io/api/mycourse')
+        await axios.get('https://prodjar-server.herokuapp.com/api/mycourse')
             .then(result => {
                 dispatch({ type: 'GET_COURSE_LIST', payload: result.data.data });
             }).

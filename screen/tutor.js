@@ -43,7 +43,7 @@ const Tutor = (props) => {
 Tutor.propTypes = {
     data: PropTypes.object.isRequired,
 }
-export default Tutor;
+export default React.memo(Tutor);
 
 const styles = StyleSheet.create({
 

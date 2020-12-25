@@ -76,7 +76,7 @@ Course.propTypes = {
 }
 
 
-export default Course;
+export default React.memo(Course);
 
 const styles = StyleSheet.create({
 

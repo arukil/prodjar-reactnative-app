@@ -46,7 +46,7 @@ Schedule.propTypes = {
     data: PropTypes.object.isRequired,
 }
 
-export default Schedule;
+export default React.memo(Schedule);
 
 const styles = StyleSheet.create({
 
