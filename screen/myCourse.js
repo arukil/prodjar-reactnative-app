@@ -1,85 +1,47 @@
 import React from 'react'
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Image, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as Animation from 'react-native-animatable';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import axios from 'axios';
 
-export default function MyCourse(props) {
-
-    const [Data, setData] = React.useState([]);
+function MyCourse(props) {
 
     React.useEffect(() => {
-        setData([
-            {
-                id: '1',
-                course:'Html',
-                topic: 'CSS Setup and selector',
-                courseImage: 'https://s3.ap-south-1.amazonaws.com/prodjar.io/html.png',
-                currentTopicNo: '3',
-                TotalTopicNo: '15',
-                tutorName: 'alagappan',
-                tutorImage: '',
-                color: 'rgb(255,234,234)'
-
-            },
-            {
-                id: '2',
-                topic: 'Yoga-Basics',
-                course:'Yoga',
-                courseImage: 'https://s3.ap-south-1.amazonaws.com/prodjar.io/yoga.png',
-                currentTopicNo: '2',
-                TotalTopicNo: '18',
-                tutorName: 'gobinath',
-                tutorImage: '',
-                color: '#dff4fe'
-
-            },
-            {
-                id: '3',
-                topic: 'React Native installation',
-                course:'React Native',
-                courseImage: 'https://s3.ap-south-1.amazonaws.com/prodjar.io/html.png',
-                currentTopicNo: '0',
-                TotalTopicNo: '15',
-                tutorName: 'suryanarayanan',
-                tutorImage: '',
-                color: '#ffeed5'
-
-            },
-
-        ])
-
-    }, []);
-
+        props.GET_MYCOURSES();
+    }, [])
 
     const renderItem = ({ item }) => {
+        const { _id, currentTopicName, course, courseLogo, totalCompletedTopic, totalTopicNo, tutorName, tutorImage, color } = item;
         return (
-            <Animation.View style={[styles.list, { backgroundColor: item.color }]} animation={'fadeInUp'}>
+            <Animation.View style={[styles.list, { backgroundColor: color }]} animation={'fadeInUp'}>
                 <View style={styles.listTop}>
                     <Image
                         source={{
-                            uri: item.courseImage,
+                            uri: courseLogo,
                         }}
                         resizeMode={'contain'}
                         style={styles.courseImage}
                     />
                     <View style={styles.listTopRight}>
-                        <Text numberOfLines={1} style={{ fontSize: 16, fontWeight: '700', color: '#4f4f4f' }}>{item.topic} </Text>
+                        <Text numberOfLines={1} style={{ fontSize: 16, fontWeight: '700', color: '#4f4f4f' }}>{currentTopicName} </Text>
                         <View style={styles.divider}></View>
                         <View style={styles.tutor}>
                             <Image
                                 source={{
-                                    uri: item.courseImage,
+                                    uri: tutorImage,
                                 }}
                                 resizeMode={'contain'}
                                 style={styles.tutorImage}
                             />
-                            <Text style={styles.tutorName}>{item.tutorName}</Text>
+                            <Text style={styles.tutorName}>{tutorName}</Text>
                         </View>
                     </View>
                 </View>
                 <View style={styles.listBottom}>
                     <View style={styles.listBottomLeft}>
-                        <Text style={{ fontSize: 15, fontWeight: '700' }}>{item.currentTopicNo}/{item.TotalTopicNo}</Text>
+                        <Text style={{ fontSize: 15, fontWeight: '700' }}>{totalCompletedTopic}/{totalTopicNo}</Text>
                         <Text style={{ color: '#4f4f4f' }}>classes completed</Text>
                     </View>
                     <TouchableOpacity style={styles.listBottomRight} activeOpacity={0.8}
@@ -97,18 +59,64 @@ export default function MyCourse(props) {
 
 
     return (
-        <SafeAreaView style={styles.container}>
-            <FlatList
-                data={Data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                showsVerticalScrollIndicator={false}
-                maxToRenderPerBatch={4}
-                initialNumToRender={3}
+        props.myCourses.length > 0 ?
+            <SafeAreaView style={styles.container}>
+                <FlatList
+                    data={props.myCourses}
+                    renderItem={renderItem}
+                    keyExtractor={item => item._id}
+                    showsVerticalScrollIndicator={false}
+                    maxToRenderPerBatch={3}
+                    initialNumToRender={3}
+                />
+            </SafeAreaView>
+            :
+            <ActivityIndicator
+                size={'large'}
+                color={'rgb(241,141,144)'}
+                style={styles.container}
             />
-        </SafeAreaView>
     )
 }
+
+
+
+MyCourse.propTypes = {
+    myCourses: PropTypes.arrayOf(PropTypes.object),
+    GET_MYCOURSES: PropTypes.func.isRequired,
+}
+
+
+const getCourse = () => {
+    return async (dispatch) => {
+        await axios.get('https://8cc2ca9d1a84.ngrok.io/api/mycourse')
+            .then(result => {
+                dispatch({ type: 'GET_COURSE_LIST', payload: result.data.data });
+            }).
+            catch((err) => {
+                console.log(err)
+            })
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        myCourses: state.myCourseReducer.MyCourse
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        GET_MYCOURSES: () => {
+            dispatch(getCourse());
+        }
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyCourse)
+
+
 
 
 
@@ -168,13 +176,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     listBottomLeft: {
-        width: '45%',
+        width: 130,
         height: '100%',
         justifyContent: 'space-around',
         alignItems: 'flex-start',
     },
     listBottomRight: {
-        width: ' 42%',
+        width: 120,
         height: '100%',
         justifyContent: 'space-around',
         flexDirection: 'row',

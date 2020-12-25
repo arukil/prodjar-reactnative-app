@@ -1,37 +1,43 @@
 import React from 'react'
-import { StyleSheet, Text, View  , ScrollView} from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import * as Progress from 'react-native-progress';
+import PropTypes from 'prop-types';
 
 const ProgressBar = (props) => {
     return (
-            <View style={styles.container}>
-                <Text style={{ fontSize: 18, fontWeight: '700', color: '#4f4f4f' }}>{'Html'}</Text>
-                <Progress.Bar
-                    progress={0.3}
-                    width={300}
-                    color={'rgb(59,186,141)'}
-                    backgroundColor={'#f3f3f3'}
-                    borderColor={'#fff'}
-                    height={10}
-                    style={{ marginTop: 10 }}
-                />
-                <View style={styles.progressBarBottom}>
-                    <Text style={{ color: '#2d2d2d', fontWeight: '700' }}>0.3% completed</Text>
-                    <Text style={{ color: '#2d2d2d', fontWeight: '700' }}>3/15 classes</Text>
-                </View>
-                <View style={styles.progressDetail}>
-                    <Text style={{ color: '#2d2d2d' }}>
-                        React Native is an open-source mobile application
-                        framework created by Facebook, Inc. It is used to develop applications
-                        for Android , iOS.
-                    </Text>
-                </View>
+        <View style={styles.container}>
+            <Text style={{ fontSize: 18, fontWeight: '700', color: '#4f4f4f' }}>{'Html'}</Text>
+            <Progress.Bar
+                progress={(props.data.totalCompletedTopic / props.data.totalTopicNo)}
+                width={300}
+                color={'rgb(59,186,141)'}
+                backgroundColor={'#f3f3f3'}
+                borderColor={'#fff'}
+                height={10}
+                style={{ marginTop: 10 }}
+            />
+            <View style={styles.progressBarBottom}>
+                <Text style={{ color: '#2d2d2d', fontWeight: '700' }}>{((props.data.totalCompletedTopic / props.data.totalTopicNo) * 100).toFixed(0)}% completed</Text>
+                <Text style={{ color: '#2d2d2d', fontWeight: '700' }}>{props.data.totalCompletedTopic}/{props.data.totalTopicNo} classes</Text>
             </View>
-           
+            <View style={styles.progressDetail}>
+                <Text style={{ color: '#2d2d2d' }}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </Text>
+            </View>
+        </View>
+
     )
 }
 
-export default ProgressBar;
+
+ProgressBar.propTypes = {
+    data: PropTypes.object.isRequired,
+}
+
+export default  React.memo(ProgressBar);
+
+
 
 const styles = StyleSheet.create({
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import PropTypes from 'prop-types';
 
 const Tutor = (props) => {
     return (
@@ -9,17 +10,17 @@ const Tutor = (props) => {
             <View style={styles.body}>
                 <View style={styles.Header}>
                     <Image
-                        source={{ uri: 'https://s3.ap-south-1.amazonaws.com/prodjar.io/html.png' }}
+                        source={{ uri: props.data.image}}
                         style={styles.image}
                         resizeMode={'contain'}
                     />
                     <View style={styles.details}>
-                        <Text numberOfLines={1} style={{fontSize:16 , fontWeight:'700' , color:'#2d2d2d'}}>Alagappan</Text>
-                        <Text style={{color:'#4f4f4f'}} numberOfLines={1}>IT developer</Text>
+                        <Text numberOfLines={1} style={{fontSize:16 , fontWeight:'700' , color:'#2d2d2d' , textTransform:'capitalize'}}>{props.data.name}</Text>
+                        <Text style={{color:'#4f4f4f'}} numberOfLines={1}>{props.data.desgination}</Text>
                     </View>
                     <View style={styles.rating}>
                         <Icon name='star' size={12} color='gold'/>
-                        <Text style={{color:'#fff' , fontSize:13}}>4.2</Text>
+                        <Text style={{color:'#fff' , fontSize:13}}>{props.data.rating}</Text>
                     </View>
                 </View>
                 <View style={styles.footer}>
@@ -38,6 +39,10 @@ const Tutor = (props) => {
     )
 }
 
+
+Tutor.propTypes = {
+    data: PropTypes.object.isRequired,
+}
 export default Tutor;
 
 const styles = StyleSheet.create({

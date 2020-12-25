@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import PropTypes from 'prop-types';
 
 const Schedule = (props) => {
     return (
@@ -11,15 +12,15 @@ const Schedule = (props) => {
                 <Text style={{ color: '#2d2d2d', fontWeight: '700', fontSize: 16 }}>Basics of components</Text>
                 <View style={styles.divider}></View>
                 <View style={styles.div1}>
-                    <Text style={{ color: '#2d2d2d', fontWeight: '700', fontSize: 15 }}>Topic 4</Text>
+                    <Text style={{ color: '#2d2d2d', fontWeight: '700', fontSize: 15 }}>Topic {props.data.Topic}</Text>
                     <View style={styles.tdcontainer}>
                         <View style={styles.time}>
                             <Icon name='alarm-check' size={14} color={'#4f4f4f'} />
-                            <Text style={{ color: '#4f4f4f' }}>10.00 Am</Text>
+                            <Text style={{ color: '#4f4f4f' }}>{props.data.time}</Text>
                         </View>
                         <View style={styles.Date}>
                             <Icon name='calendar-blank' size={14} color={'#4f4f4f'} />
-                            <Text style={{ color: '#4f4f4f' }}>27 jun</Text>
+                            <Text style={{ color: '#4f4f4f' }}>{props.data.Date}</Text>
                         </View>
                     </View>
                 </View>
@@ -38,6 +39,11 @@ const Schedule = (props) => {
             </View>
         </View>
     )
+}
+
+
+Schedule.propTypes = {
+    data: PropTypes.object.isRequired,
 }
 
 export default Schedule;
@@ -69,7 +75,7 @@ const styles = StyleSheet.create({
     tdcontainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '50%',
+        width: 160,
         justifyContent: 'space-around'
     },
     time: {

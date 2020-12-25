@@ -1,41 +1,17 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import PropTypes from 'prop-types';
 
 const Course = (props) => {
 
-    const topic = 1;
     const [viewAll, setViewAll] = React.useState(false);
     const [list, setList] = React.useState([]);
 
-    const data = [
-        {
-            id: 1,
-            title: 'basic of compo'
-        }
-        ,
-        {
-            id: 2,
-            title: 'basic of compo'
-        }
-        ,
-        {
-            id: 3,
-            title: 'basic of compo',
-
-        },
-        {
-            id: 4,
-            title: 'basic of compo',
-
-        },
-       
-    ]
-
-
 
     const renderItem = () => {
-        return list.map(({ title }, index) => {
+      let topic = props.topic;
+        return list.map(( title, index) => {
             let IconName = topic === index ? 'youtube' : topic > index ? 'check' : 'lock-outline';
             return (
                 <TouchableOpacity key={index} activeOpacity={0.7}
@@ -46,7 +22,7 @@ const Course = (props) => {
                         , color: topic === index ? '#rgb(234,73,70)' : '#ffffff'
                     }
                     ]} size={15} />
-                    <Text style={{ marginLeft: 10, fontSize: 15, color: topic === index ? '#ffffff' : '#2d2d2d' }} >Basic of compo</Text>
+                    <Text style={{ marginLeft: 10, fontSize: 15, color: topic === index ? '#ffffff' : '#2d2d2d' }} >{title}</Text>
                 </TouchableOpacity>
             )
         })
@@ -56,18 +32,19 @@ const Course = (props) => {
         if (!viewAll) {
             let arr = [];
             for (let index = 0; index < 3; index++) {
-                arr.push(data[index])
+                arr.push(props.data[index])
             }
             setList(arr);
         }
         else {
-            let len = data.length;
+            let len = props.data.length;
             let arr = [];
             for (let index = 3; index < len; index++) {
-                arr.push(data[index])
+                arr.push(props.data[index])
             }
             setList([...list, ...arr]);
         }
+
     }, [viewAll])
 
     return (
@@ -90,6 +67,14 @@ const Course = (props) => {
         </View>
     )
 }
+
+
+
+Course.propTypes = {
+    data: PropTypes.array.isRequired,
+    topic:PropTypes.number.isRequired
+}
+
 
 export default Course;
 
@@ -131,7 +116,7 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 12,
         backgroundColor: 'rgb(0,168,237)',
-        borderRadius:4,
+        borderRadius: 4,
 
     },
 
